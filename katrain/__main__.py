@@ -88,7 +88,6 @@ from katrain.gui.popups import (
     ConfigTimerPopup,
     I18NPopup,
     SaveSGFPopup,
-    ContributePopup,
     EngineRecoveryPopup,
 )
 from katrain.gui.sound import play_sound
@@ -125,7 +124,6 @@ class KaTrainGui(Screen, KaTrainBase):
         self.ai_settings_popup = None
         self.teacher_settings_popup = None
         self.timer_settings_popup = None
-        self.contribute_popup = None
 
         self.pondering = False
         self.show_move_num = False
@@ -339,7 +337,7 @@ class KaTrainGui(Screen, KaTrainBase):
     def __call__(self, message, *args, **kwargs):
         if self.game:
             if message.endswith("popup"):  # gui code needs to run in main kivy thread.
-                if self.contributing and "save" not in message and message != "contribute-popup":
+                if self.contributing and "save" not in message:
                     self.controls.set_status(
                         i18n._("gui-locked").format(action=message), STATUS_INFO, check_level=False
                     )
@@ -495,13 +493,6 @@ class KaTrainGui(Screen, KaTrainBase):
             self.config_popup.title += ": " + self.config_file
         self.config_popup.open()
 
-    def _do_contribute_popup(self):
-        if not self.contribute_popup:
-            self.contribute_popup = I18NPopup(
-                title_key="contribute settings title", size=[dp(1100), dp(800)], content=ContributePopup(self)
-            ).__self__
-            self.contribute_popup.content.popup = self.contribute_popup
-        self.contribute_popup.open()
 
     def _do_ai_popup(self):
         self.controls.timer.paused = True
@@ -698,7 +689,6 @@ class KaTrainGui(Screen, KaTrainBase):
                 (Theme.KEY_TEACHER_POPUP, ("teacher-popup",)),
                 (Theme.KEY_AI_POPUP, ("ai-popup",)),
                 (Theme.KEY_CONFIG_POPUP, ("config-popup",)),
-                (Theme.KEY_CONTRIBUTE_POPUP, ("contribute-popup",)),
                 (Theme.KEY_STOP_ANALYSIS, ("analyze-extra", "stop")),
             ]
             for k in (ks if isinstance(ks, list) else [ks])

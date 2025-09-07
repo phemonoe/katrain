@@ -275,46 +275,42 @@ class NewGamePopup(QuickConfigGui):
         for bw, info in katrain.players_info.items():
             self.player_setup.update_player_info(bw, info)
 
-        self.rules_spinner.value_refs = [name for abbr, name in katrain.engine.RULESETS_ABBR]
+        # Rules spinner removed - always use Chinese rules
         self.bind(mode=self.update_playername)
         Clock.schedule_once(self.update_from_current_game, 0.1)
 
     def normalized_rules(self):
-        rules = self.katrain.game.root.get_property("RU", "japanese").strip().lower()
-        for abbr, name in self.katrain.engine.RULESETS_ABBR:
-            if abbr == rules or name == rules:
-                return name
+        # Always return Chinese rules
+        return "chinese"
 
     def update_playerinfo(self, *args):
         for bw, player_setup in self.player_setup.players.items():
-            name = self.player_name[bw].text
-            if name:
-                self.katrain.game.root.set_property("P" + bw, name)
-            else:
-                self.katrain.game.root.clear_property("P" + bw)
+            # Player names removed from UI - use default names
+            self.katrain.game.root.clear_property("P" + bw)
             self.katrain.update_player(bw, **player_setup.player_type_dump)
 
     def update_playername(self, *args):
-        for bw in "BW":
-            name = self.katrain.game.root.get_property("P" + bw, None)
-            if name and SGF_INTERNAL_COMMENTS_MARKER not in name:
-                self.player_name[bw].text = name if self.mode == "editgame" else ""
+        # Player names removed from UI - no longer need to update name fields
+        pass
 
-    def update_from_current_game(self, *args):  # set rules and komi
-        rules = self.normalized_rules()
+    def update_from_current_game(self, *args):  # set komi only - rules fixed to Chinese
         self.km.text = str(self.katrain.game.root.komi)
-        if rules is not None:
-            self.rules_spinner.select_key(rules.strip())
 
     def update_config(self, save_to_file=True, close_popup=True):
         super().update_config(save_to_file=save_to_file, close_popup=close_popup)
         props = self.collect_properties(self)
+        
+        # Ensure Chinese rules are always set
+        props["game/rules"] = "chinese"
+        props["game/size"] = 19
+        props["game/clear_cache"] = True
+        
         self.katrain.log(f"Mode: {self.mode}, settings: {self.katrain.config('game')}", OUTPUT_DEBUG)
         self.update_playerinfo()  # type
         if self.mode == "newgame":
-            if self.restart.active:
-                self.katrain.log("Restarting Engine", OUTPUT_DEBUG)
-                self.katrain.engine.restart()
+            # Always restart engine (clear cache)
+            self.katrain.log("Restarting Engine", OUTPUT_DEBUG)
+            self.katrain.engine.restart()
             self.katrain._do_new_game()
         elif self.mode == "editgame":
             root = self.katrain.game.root

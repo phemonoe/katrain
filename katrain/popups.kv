@@ -640,11 +640,8 @@
     opacity: 1 if self.size_hint_y > EPSILON else 0
 
 <NewGamePopup>:
-    restart: restart
-    rules_spinner: rules_spinner
     km: km
     player_setup: player_setup
-    player_name: {"W": white_player_name, "B": black_player_name}
     BoxLayout:
         size_hint: 1, 0.66
         BoxLayout:
@@ -672,30 +669,11 @@
         size_hint: 1, 1.5
         spacing: CP_SPACING
         padding: CP_PADDING
-        DescriptionLabel:
-            text: i18n._("player names")
-        AnchorLayout:
-            LabelledTextInput:
-                text: ''
-                id: black_player_name
-                write_tab: False
-                hint_text: i18n._("black player name hint")
-                size_hint: 0.75, None
-        AnchorLayout:
-            LabelledTextInput:
-                text: ''
-                id: white_player_name
-                write_tab: False
-                hint_text: i18n._("white player name hint")
-                size_hint: 0.75, None
-        DescriptionLabel:
-            text: i18n._("ruleset")
-        AnchorLayout:
-            LabelledSpinner:
-                size_hint: 0.95,0.8
-                input_property: 'game/rules'
-                font_size: sp(Theme.DESC_FONT_SIZE)
-                id: rules_spinner
+        Label:
+        Label:
+        Label:
+        Label:
+        Label:
         Label:
         DescriptionLabel:
             text:  i18n._("komi")
@@ -723,29 +701,9 @@
         GridLayout:
             cols: 3
             rows: 2
-            DescriptionLabel:
-                text: i18n._("board size")
-            AnchorLayout:
-                LabelledTextInput:
-                    text: '19'
-                    id: boardsize
-                    input_property: 'game/size'
-                    write_tab: False
-                    size_hint: 0.5, None
-                    hint_text: i18n._("non square board hint")
-            AnchorLayout:
-                MDBoxLayout:
-                    adaptive_size: True
-                    spacing: CP_SPACING
-                    QuickInputButton:
-                        text: '9'
-                        target: boardsize
-                    QuickInputButton:
-                        text: '13'
-                        target: boardsize
-                    QuickInputButton:
-                        text: '19'
-                        target: boardsize
+            Label:
+            Label:
+            Label:
             DescriptionLabel:
                 text:  i18n._("handicap")
             AnchorLayout:
@@ -772,15 +730,7 @@
                         target: handicap
     HideyBoxLayout:
         id: new_game_section
-        size_hint_y: 1.5 if root.mode == 'newgame' else EPSILON
-        DescriptionLabel:
-            text: i18n._('clear cache')
-        AnchorLayout:
-            LabelledCheckBox:
-                id: restart
-                input_property: 'game/clear_cache'
-        SmallDescriptionLabel:
-            text: i18n._('avoids replaying')
+        size_hint_y: EPSILON
     HideyBoxLayout:
         id: setup_game_section
         size_hint_y: 1.5 if root.mode == 'setupposition' else EPSILON

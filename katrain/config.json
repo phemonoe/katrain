@@ -40,11 +40,11 @@
         "sound": true
     },
     "game": {
-        "size": "19",
+        "size": 19,
         "komi": 6.5,
         "handicap": 0,
-        "rules": "japanese",
-        "clear_cache": false,
+        "rules": "chinese",
+        "clear_cache": true,
         "setup_move": 100,
         "setup_advantage": 20
     },

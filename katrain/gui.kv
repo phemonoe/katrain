@@ -586,12 +586,13 @@
             spacing: CP_SPACING
             Timer:
                 id: timer
-                size_hint_x: 0.65
+                size_hint_x: EPSILON
+                opacity: 0
             MDBoxLayout:
                 orientation: 'vertical'
                 padding: 2*CP_PADDING,CP_PADDING
                 spacing: CP_SPACING
-                size_hint_x: 0.35
+                size_hint_x: 1
                 SizedRoundedRectangleButton:
                     text: i18n._('undo-button-text')
                     size_hint: 1, 0.5
@@ -639,15 +640,15 @@
         id: notes_panel
         size_hint_y_open: 1
         closed_label: 'closedlabel:info&notes'
-        options: ['info','info-details','notes']
-        option_colors: [Theme.INFO_TAB_FONT_COLOR,Theme.INFO_TAB_FONT_COLOR,Theme.NOTES_TAB_FONT_COLOR]
-        option_active: [True,False,False]
+        options: ['info','info-details']
+        option_colors: [Theme.INFO_TAB_FONT_COLOR,Theme.INFO_TAB_FONT_COLOR]
+        option_active: [True,False]
         on_option_state:
             info.detailed = args[1]['info-details']
             info.size_hint_y = int(args[1]['info'] or info.detailed)+EPSILON
             info.opacity =  int(args[1]['info'] or info.detailed)
-            notebox.size_hint_y = int(args[1]['notes'])*0.66+EPSILON
-            notebox.opacity = int(args[1]['notes'])
+            notebox.size_hint_y = EPSILON
+            notebox.opacity = 0
             app.gui.update_state()
         options_height: root.tab_option_height
         BGBoxLayout:
@@ -1048,12 +1049,6 @@
             icon: 'General-Settings.png'
             shortcut: 'F8'
             on_action: root.katrain('config-popup')
-        MainMenuItem:
-            text: i18n._('menu:distributed')
-            shortcut: 'F9'
-            icon: 'collaboration.png'
-            on_action: root.katrain('contribute-popup')
-#            on_action: root.katrain('katago-contribute')
 
 
 <OutlineBox@MDBoxLayout+BackgroundMixin>:
