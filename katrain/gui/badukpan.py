@@ -311,7 +311,7 @@ class BadukPanWidget(Widget):
         if depth:
             text = str(depth)
             Color(*Theme.NUMBER_COLOR)
-            draw_text(pos=self.gridpos[y][x], text=text, font_size=self.stone_size * 0.9, font_name="Roboto")
+            draw_text(pos=self.gridpos[y][x], text=text, font_size=self.stone_size * 0.9, font_name=Theme.DEFAULT_FONT)
 
     def eval_color(self, points_lost, show_dots_for_class: List[bool] = None) -> Optional[List[float]]:
         i = evaluation_class(points_lost, self.trainer_config["eval_thresholds"])
@@ -564,14 +564,14 @@ class BadukPanWidget(Widget):
                     pos=(gridpos_x[i], gridpos_y[0] - coord_offset),
                     text=self.get_x_coordinate_text(i, board_size_x),
                     font_size=self.grid_size / 1.5,
-                    font_name="Roboto",
+                    font_name=Theme.DEFAULT_FONT,
                 )
             for i in range(board_size_y):
                 draw_text(
                     pos=(gridpos_x[0] - coord_offset, gridpos_y[i]),
                     text=self.get_y_coordinate_text(i, board_size_y),
                     font_size=self.grid_size / 1.5,
-                    font_name="Roboto",
+                    font_name=Theme.DEFAULT_FONT,
                 )
 
     def get_x_coordinate_text(self, i, board_size_x):
@@ -737,7 +737,7 @@ class BadukPanWidget(Widget):
                             draw_text(
                                 pos=(self.gridpos[y][x][0], self.gridpos[y][x][1]),
                                 text=f"{100 * move_policy :.2f}"[:4] + "%",
-                                font_name="Roboto",
+                                font_name=Theme.DEFAULT_FONT,
                                 font_size=self.grid_size / 4,
                                 halign="center",
                             )
@@ -1008,7 +1008,7 @@ class BadukPanWidget(Widget):
                                     self.gridpos[move.coords[1]][move.coords[0]][1],
                                 ),
                                 text=fmt.format(**keys),
-                                font_name="Roboto",
+                                font_name=Theme.DEFAULT_FONT,
                                 markup=True,
                                 line_height=0.85,
                                 halign="center",
@@ -1135,7 +1135,7 @@ class BadukPanWidget(Widget):
                 texture=cached_texture(Theme.STONE_TEXTURE[move_player]),
             )
             Color(*Theme.PV_TEXT_COLORS[move_player])
-            draw_text(pos=board_coords, text=str(i + 1), font_size=self.grid_size * sizefac / 1.45, font_name="Roboto")
+            draw_text(pos=board_coords, text=str(i + 1), font_size=self.grid_size * sizefac / 1.45, font_name=Theme.DEFAULT_FONT)
 
     def set_animating_pv(self, pv, node):
         self.animating_pv_index = None
